@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "baseline-template-change"
+version = "0.1.0"
+description = ""
+authors = ["AFg6K7h4fhy2 <127630341+AFg6K7h4fhy2@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "baseline_template_change"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pre-commit = "^3.7.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
