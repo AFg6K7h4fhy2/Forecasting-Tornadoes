@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "baseline-template-change"
+name = "forecasting-tornadoes"
 version = "0.1.0"
-description = ""
+description = "This repository contains up to several small statistical models for forecasting tornadoes. If you are a collaborator and want to create a model, please use this poetry environment. Also, please name your model one letter after the previous model."
 authors = ["AFg6K7h4fhy2 <127630341+AFg6K7h4fhy2@users.noreply.github.com>"]
 readme = "README.md"
 packages = [{include = "baseline_template_change"}]
@@ -9,6 +9,9 @@ packages = [{include = "baseline_template_change"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 pre-commit = "^3.7.0"
+polars = "^0.20.22"
+numpyro = "^0.14.0"
+toml = "^0.10.2"
 
 
 [build-system]

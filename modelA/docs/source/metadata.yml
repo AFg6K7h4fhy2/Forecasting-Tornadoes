@@ -1,0 +1,24 @@
+---
+title: Bayesian Hierarchical Modelling For Tornadoes
+subtitle: "Some Motivating Model Examples"
+author: 118777
+date: Q2 2024
+lof: false
+lot: false
+lol: false
+glossary: true
+toc: false
+toc-depth: 3
+parindent: 0
+parskip: 15
+bquote_parskip: 5
+numbersections: true
+fontsize: 14pt
+papersize: letter
+documentclass: article
+linkcolor: black
+urlcolor: gray
+filecolor: magenta
+citecolor: cyan
+link-citations: true
+---
