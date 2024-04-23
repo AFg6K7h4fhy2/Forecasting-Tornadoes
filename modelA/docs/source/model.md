@@ -32,7 +32,7 @@ $$
 \end{aligned}
 $$
 
-As for predicting the number of tornadoes during April 2024, across all states (please forgive the poor form present in the `posterior_predictive_distribution` function and the lack of docstrings—the author will get to these in time): 
+As for predicting the number of tornadoes during April 2024, across all states (please forgive the poor form present in the `posterior_predictive_distribution` function and the lack of docstrings—the author will get to these in time):
 
 \begin{lstlisting}[style=pyStyle, caption={Model Implementation In Numpyro}, label={lst:model_numpyro}]
 def tornado_modelA(state=None, month=None, year=None, tornadoes=None):
@@ -140,4 +140,3 @@ Note that there are preliminary and final counts. Since some entries do not have
 
 
 ## Full Code
-

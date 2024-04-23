@@ -1,5 +1,5 @@
-""" 
-File in need of overhaul. 
+"""
+File in need of overhaul.
 Pending improvement.
 """
 
@@ -43,7 +43,7 @@ us_state_abbreviations = [
     "NM",
     "NY",
     "NC",
-    "ND",
+    "AND",
     "OH",
     "OK",
     "OR",
@@ -63,7 +63,8 @@ us_state_abbreviations = [
 ]
 
 us_state_values = dict(
-    list(zip(us_state_abbreviations, list(range(len(us_state_abbreviations))))))
+    list(zip(us_state_abbreviations, list(range(len(us_state_abbreviations)))))
+)
 
 month_values = {
     "January": 0,
@@ -82,9 +83,7 @@ month_values = {
 
 
 def get_NOAA_SPC_data(
-    data_read_path: str, 
-    data_save_path: str, 
-    use_preliminary: bool = True
+    data_read_path: str, data_save_path: str, use_preliminary: bool = True
 ) -> pl.DataFrame:
     """
     Converts raw NOAA Storm Prediction Center (SPC) into csv via polars.
@@ -149,13 +148,19 @@ def get_NOAA_SPC_data(
                 print(lines[1:])
                 data = [
                     [
-                        int(elt) if elt not in us_state_abbreviations else us_state_values[elt] for elt in line
+                        (
+                            int(elt)
+                            if elt not in us_state_abbreviations
+                            else us_state_values[elt]
+                        )
+                        for elt in line
                     ]
                     for line in lines[1:]
                 ]
                 df = pl.DataFrame(dict(zip(header, np.asarray(data).T)))
                 df = df.with_columns(
-                    Year=pl.lit(int(year)-2019), Month=pl.lit(month_values[month])
+                    Year=pl.lit(int(year) - 2019),
+                    Month=pl.lit(month_values[month]),
                 )
                 print(df)
                 if isinstance(df, pl.DataFrame):
@@ -170,8 +175,6 @@ def get_NOAA_SPC_data(
         df_vertical_concat = pl.concat(dfs, how="vertical")
         if not os.path.exists(data_save_path):
             df_vertical_concat.write_csv(data_save_path)
-    
-    
 
 
-#get_NOAA_SPC_data("../data/raw/", "../data/clean/cleaned_NOAA_SPC.csv")
+# get_NOAA_SPC_data("../data/raw/", "../data/clean/cleaned_NOAA_SPC.csv")

@@ -4,7 +4,6 @@ Add prior predictive.
 Improve posterior predictive.
 """
 
-
 from typing import Callable
 
 import jax.numpy as jnp
@@ -43,7 +42,7 @@ def tornado_modelA(state=None, month=None, year=None, tornados=None):
     lambda_ = jnp.exp(
         alpha[state] + gamma[month] + delta[year] + theta[month, year]
     )
-    #with npro.plate("data", size=len(tornados)):
+    # with npro.plate("data", size=len(tornados)):
     npro.sample("obs", dist.Poisson(lambda_), obs=tornados)
 
 
@@ -73,17 +72,14 @@ def inference(model: Callable, cf: dict, data: pl.DataFrame, save_path: str):
         mcmc.print_summary()
     return mcmc.get_samples()
 
-def posterior_predictive_distribution(
-    samples, model, cf
-):
-    predictive = npro.infer.Predictive(
-        model, posterior_samples=samples
-    )
+
+def posterior_predictive_distribution(samples, model, cf):
+    predictive = npro.infer.Predictive(model, posterior_samples=samples)
     rng_key = jr.PRNGKey(cf["reproducibility"]["seed"])
     post_pred = predictive(
         rng_key,
         state=jnp.array(list(range(50))),
         month=jnp.array([3]),
-        year=jnp.array([2024])
+        year=jnp.array([2024]),
     )
     return post_pred

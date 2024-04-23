@@ -1,16 +1,18 @@
 """
 File quite messy.
-In need of major overhaul. 
+In need of major overhaul.
 """
-
 
 import os
 import uuid
+
+import jax.numpy as jnp
+import numpy as np
 import polars as pl
 import toml
-from data import get_NOAA_SPC_data
-from modelA import inference, tornado_modelA, posterior_predictive_distribution
-import jax.numpy as jnp
+
+from modelA import inference, posterior_predictive_distribution, tornado_modelA
+
 # from vis import vis_tornado_data, vis_prediction
 
 
@@ -25,6 +27,7 @@ def main():
     # get data
     clean_data_file_path = "../data/clean/cleaned_NOAA_SPC.csv"
     raw_data_path = "../data/raw/"
+    print(raw_data_path)
     if not os.path.exists(clean_data_file_path):
         # get_NOAA_SPC_data(
         #     raw_data_path, clean_data_file_path, cf["data"]["preliminary"]
@@ -32,14 +35,13 @@ def main():
         pass
     data = pl.read_csv(clean_data_file_path)
 
-
     # run inference
     uuid4 = uuid.uuid4()
     save_path = f"../output/samples/{uuid4}.csv"
     samples = inference(tornado_modelA, cf, data, save_path)
-    postP = posterior_predictive_distribution(
-        samples, tornado_modelA, cf)
+    postP = posterior_predictive_distribution(samples, tornado_modelA, cf)
     x = {k: jnp.percentile(v, 2.5, axis=0) for k, v in postP.items()}
+    print(x)
     print(postP["obs"].shape)
     print(jnp.mean(postP["obs"], axis=0))
     print(jnp.sum(postP["obs"], axis=0))
