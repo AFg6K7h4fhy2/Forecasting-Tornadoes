@@ -1,0 +1,17 @@
+State	All	Tornado	Wind	Hail
+AL	1	1	0	0
+AR	2	0	1	1
+CT	16	4	12	0
+FL	1	0	1	0
+KS	4	0	3	1
+LA	8	2	6	0
+MA	7	0	7	0
+MO	1	0	1	0
+NE	1	0	1	0
+NJ	4	0	0	4
+NY	28	9	16	3
+OK	23	5	5	13
+OR	2	0	2	0
+RI	8	2	6	0
+TX	21	2	3	16
+WA	6	0	6	0
