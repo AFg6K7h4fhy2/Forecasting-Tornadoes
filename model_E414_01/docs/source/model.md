@@ -140,3 +140,20 @@ Note that there are preliminary and final counts. Since some entries do not have
 
 
 ## Full Code
+
+
+## Notes
+
+* Have a tree diagram in the README.
+* Have Mermaid model in the README for each model.
+* Have Discussion on Tornadoes Dynamics.
+* Have Discussion on each Model type.
+* Data file only run once.
+* Save, Transform, Vis works across Models.
+* Models can save information in clean way.
+* Have Resources section with layout of the information and Discussions.
+* &rarr; Considerations For Model Repos. In General
+  * Branch Protection
+  * CONTRIBUTING.md
+  * ISSUE TEMPLATE
+* Discussion on Save, Transform, Vis., Data patterns.

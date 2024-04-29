@@ -1,6 +1,20 @@
 """
-File in need of overhaul.
-Pending improvement.
+Produces a dataset of tornado counts
+across the US by month, state, and year.
+Requires files to be structured in a
+particular manner.
+
+Authors
+-------
+118777
+
+Date Created
+------------
+2024-04-23
+
+Last Updated
+------------
+2024-04-28
 """
 
 import glob
@@ -62,28 +76,32 @@ us_state_abbreviations = [
     "WY",
 ]
 
+
+# associate numerical values with US states, starting from 1
 us_state_values = dict(
-    list(zip(us_state_abbreviations, list(range(len(us_state_abbreviations)))))
+    list(zip(us_state_abbreviations, list(range(1, len(us_state_abbreviations)+1))))
 )
 
 month_values = {
-    "January": 0,
-    "February": 1,
-    "March": 2,
-    "April": 3,
-    "May": 4,
-    "June": 5,
-    "July": 6,
-    "August": 7,
-    "September": 8,
-    "October": 9,
-    "November": 10,
-    "December": 11,
+    "January": 1,
+    "February": 2,
+    "March": 3,
+    "April": 4,
+    "May": 5,
+    "June": 6,
+    "July": 7,
+    "August": 8,
+    "September": 9,
+    "October": 10,
+    "November": 11,
+    "December": 12,
 }
 
 
 def get_NOAA_SPC_data(
-    data_read_path: str, data_save_path: str, use_preliminary: bool = True
+    data_read_path: str, 
+    data_save_path: str, 
+    use_preliminary: bool = True
 ) -> pl.DataFrame:
     """
     Converts raw NOAA Storm Prediction Center (SPC) into csv via polars.
@@ -145,7 +163,6 @@ def get_NOAA_SPC_data(
                 )
                 lines = [line.split("\t") for line in lines]
                 header = lines[0]
-                print(lines[1:])
                 data = [
                     [
                         (
@@ -177,4 +194,5 @@ def get_NOAA_SPC_data(
             df_vertical_concat.write_csv(data_save_path)
 
 
+# NOTE: should not be run if cleaned_NOAA_SPC.csv exists in data/clean
 # get_NOAA_SPC_data("../data/raw/", "../data/clean/cleaned_NOAA_SPC.csv")

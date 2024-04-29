@@ -1,5 +1,17 @@
 """
-File nearing completion.
+Loads config (params.toml) for any model.
+
+Authors
+-------
+118777
+
+Date Created
+------------
+2024-04-23
+
+Last Updated
+------------
+2024-04-28
 """
 
 import os
@@ -9,7 +21,9 @@ import toml
 from toml.decoder import TomlDecodeError
 
 
-def load_and_valid_config(cf_path: str) -> dict[str, str | bool | int]:
+def load_and_valid_config(
+    cf_path: str,
+) -> dict[str, dict[str, bool | int | float]]:
     """
     Loads and validations model params.toml configuration files
 
@@ -51,7 +65,7 @@ def load_and_valid_config(cf_path: str) -> dict[str, str | bool | int]:
             f"{e}\nThe toml configuration file was unable to be loaded."
         )
 
-    # # make sure all inputted primary keys are supported
+    # make sure all inputted primary keys are supported
     valid_key_combinations = {
         "reproducibility": {"seed"},
         "data": {
@@ -167,76 +181,24 @@ def load_and_valid_config(cf_path: str) -> dict[str, str | bool | int]:
         cf["data"]["start_year"], int
     ), "The start year must be any integer."
     assert 1 <= cf["data"]["start_year"], "The start year must be positive."
+    assert isinstance(
+        cf["data"]["forecast_year"], int
+    ), "The forecast year must be any integer."
+    assert (
+        1 <= cf["data"]["forecast_year"]
+    ), "The forecast year must be positive."
 
-    assert isinstance(cf["data"]["year"], int), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
-    assert isinstance(
-        cf[""][""],
-    ), ""
+    return cf
 
 
-# CHECK that preliminary is boolean
-# CHECK that files in raw contain selected preliminary
-# CHECK that start year is a positive integer
-# CHECK that start year is at least min year, at most max year
-# CHECK that forecast_month is str
-# CHECK forecast_month = "April" in months
-# CHECK that forecast_state is str
-# CHECK that forecast_state in us_state_abbreviations + ["US"]
-# CHECK that forecast_year is positive integer
-# CHECK that forecast_year is at least 1 + min year, at most 5 + max_year
+# NOTE: there are missing checks that still need to be completed
 
-
+# preliminary = true
+# start_year = 2019
+# forecast_month = "April"
+# forecast_state = "US"
+# forecast_year = 2024
 # [tornado_parameters]
-
-
 # [inference]
 # adapt_delta = 0.85
 # max_tree_depth = 12
@@ -245,36 +207,16 @@ def load_and_valid_config(cf_path: str) -> dict[str, str | bool | int]:
 # num_chains = 1
 # progress_bar = true
 # print_summary = true
-# save_obs_summary = true
-# save_samples = true
-# save_prior_pred = true
-# save_post_pred = true
-#
-# CHECK that adapt_delta is float
-# CHECK that adapt_delta is between [0.6, 0.95]
-# CHECK that max_tree_depth is int
-# CHECK that max_tree_depth is between [2, 12]
-# CHECK that num_warmup is positive int
-# CHECK that num_warmup is between 50 and 1000
-# CHECK that num_samples is positive int
-# CHECK that num_samples is between 100 and 2500
-# CHECK that progress_bar, summary, save_samples
-
-# [visuals]
+# print_post_prior = true
+# save_obs_summary = false
+# save_samples = false
+# save_prior_pred = false
+# save_post_pred = false
+# [output]
 # report = true
-# show_data_plots = true
-#   US map w/ coloration (each year)
-#   state bar w/ counts (each year)
-#   month bar w/ counts by (each state, year)
+# show_map_plot = true
+# show_bar_plots = false
 # show_mcmc_trace = true
-#   sample trace
-#   smooth distribution
-#   histogram
-# show_post_pred = true
 # show_prior_pred = true
+# show_post_pred = true
 # show_bayes_plot = true
-
-#
-
-
-load_and_valid_config("../data/params_A.toml")
