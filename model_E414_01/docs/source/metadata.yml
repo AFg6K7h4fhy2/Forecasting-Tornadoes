@@ -1,16 +1,16 @@
 ---
-title: Bayesian Hierarchical Modelling For Tornadoes
-subtitle: "Some Motivating Model Examples"
+title: E414 Model Iteration One
+subtitle: "Predicting U.S. Tornado Counts"
 author: 118777
 date: Q2 2024
 lof: false
 lot: false
 lol: false
 glossary: true
-toc: false
+toc: true
 toc-depth: 3
 parindent: 0
-parskip: 15
+parskip: 10
 bquote_parskip: 5
 numbersections: true
 fontsize: 14pt
@@ -19,6 +19,6 @@ documentclass: article
 linkcolor: black
 urlcolor: gray
 filecolor: magenta
-citecolor: cyan
+citecolor: black
 link-citations: true
 ---

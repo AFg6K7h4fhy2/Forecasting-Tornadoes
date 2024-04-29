@@ -9,13 +9,11 @@ OUTPUTDIR=$(BASEDIR)/output
 BIBFILE=$(INPUTDIR)/references.bib
 STYLEDIR=$(BASEDIR)/style
 
-PREAMBLE=$(BASEDIR)/../../../../templates/pandoc/styles/preamble.latex
-GLOSSARY=$(BASEDIR)/../../../../templates/pandoc/styles/glossary.latex
-TEMPLATE=$(BASEDIR)/../../../../templates/pandoc/styles/template.latex
-CSL=$(BASEDIR)/../../../../templates/pandoc/styles/csls/chicago-fullnote-bibliography-with-ibid.csl
-FILTERS=$(BASEDIR)/../../../../templates/pandoc/filters
-
-# --lua-filter="$(FILTERS)/links.lua" \
+PREAMBLE=$(BASEDIR)/../../../Personal-Templates/pandoc/styles/preamble.latex
+GLOSSARY=$(BASEDIR)/../../../Personal-Templates/pandoc/styles/glossary.latex
+TEMPLATE=$(BASEDIR)/../../../Personal-Templates/pandoc/styles/template.latex
+CSL=$(BASEDIR)/../../../Personal-Templates/pandoc/styles/csls/ieee-with-url.csl
+FILTERS=$(BASEDIR)/../../../Personal-Templates/pandoc/filters
 
 pdf:
 	pandoc  \
@@ -28,7 +26,6 @@ pdf:
 		"$(INPUTDIR)"/*.md \
 		"$(INPUTDIR)/metadata.yml" \
 		--lua-filter="$(FILTERS)/bquote.lua" \
-		--lua-filter="$(FILTERS)/gitH.lua" \
 		--lua-filter="$(FILTERS)/fig.lua" \
 		--bibliography="$(BIBFILE)" \
 		--citeproc \

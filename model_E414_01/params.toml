@@ -1,0 +1,34 @@
+[reproducibility]
+seed = 352352
+
+[data]
+preliminary = true
+start_year = 2019
+forecast_month = "April"
+forecast_state = "US"
+forecast_year = 2024
+
+[tornado_parameters]
+
+[inference]
+adapt_delta = 0.85
+max_tree_depth = 12
+num_warmup = 50
+num_samples = 400
+num_chains = 1
+progress_bar = true
+print_summary = true
+print_post_prior = true
+save_obs_summary = false
+save_samples = false
+save_prior_pred = false
+save_post_pred = false
+
+[output]
+report = true
+show_map_plot = true
+show_bar_plots = false
+show_mcmc_trace = true
+show_prior_pred = true
+show_post_pred = true
+show_bayes_plot = true

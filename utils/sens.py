@@ -1,6 +1,6 @@
 """
-Transforms posterior samples into a
-Metaculus forecast object.
+Perform a sensitivity analysis
+for models E414 01.
 
 Authors
 -------
