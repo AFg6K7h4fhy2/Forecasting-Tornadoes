@@ -33,8 +33,8 @@ def samples(
         model,
         dense_mass=True,
         max_tree_depth=cf["inference"]["max_tree_depth"],
-        adapt_delta=cf["inference"]["adapt_delta"],
         init_strategy=npro.infer.init_to_median,
+        target_accept_prob=cf["inference"]["adapt_delta"],
     )
     mcmc = npro.infer.MCMC(
         nuts_kernel,
@@ -49,7 +49,7 @@ def samples(
         states=jnp.array(data["State"].to_numpy()),
         months=jnp.array(data["Month"].to_numpy()),
         years=jnp.array(data["Year"].to_numpy()),
-        tornados=jnp.array(data["Tornado"].to_numpy()),
+        tornadoes=jnp.array(data["Tornado"].to_numpy()),
     )
     if cf["inference"]["print_summary"]:
         mcmc.print_summary()
@@ -79,8 +79,8 @@ def posterior_predictive_distribution(
     rng_key = jr.PRNGKey(cf["reproducibility"]["seed"])
     post_pred = predictive(
         rng_key,
-        states=jnp.array(list(range(50))),
-        months=jnp.array([3]),
-        years=jnp.array([2024]),
+        states=states,
+        months=months,
+        years=years,
     )
     return post_pred

@@ -21,11 +21,29 @@ Last Updated
 import numpyro as npro
 
 
+def plot_prior_predictive():
+    pass
+
+
+def plot_posterior_predictive():
+    pass
+
+
+def plot_mcmc_samples():
+    pass
+
+
+def plot_posterior_samples():
+    pass
+
+
 def plot_priors(
-    dist: npro.distribution,
+    dist: npro.distributions,
     num_samples: int,
     is_hyper: bool,
     style_path: str,
+    model_name: str,
+    save_path: str,
 ):
     pass
 

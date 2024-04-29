@@ -100,7 +100,7 @@ def model_01(states=None, months=None, years=None, tornadoes=None):
 
 ## Inference
 
-### Prior
+### Priors
 
 ### Prior Predictive Check
 
