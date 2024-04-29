@@ -36,8 +36,8 @@ Adaptive priors:
 $$
 \begin{aligned}
 \alpha_{l} &\sim \text{Normal}(\overline{\alpha}, \sigma_{\alpha}) \quad \text{for} \quad l = 1, 2, \dotsc, 50 \\
-\gamma_{l} &\sim \text{Normal}(\overline{\alpha}, \sigma_{\gamma}) \quad \text{for} \quad l = 1, 2, \dotsc, 12  \\
-\delta_{l} &\sim \text{Normal}(\overline{\alpha}, \sigma_{\delta}) \quad \text{for} \quad l = 1, 2, \dotsc, 5
+\gamma_{l} &\sim \text{Normal}(\overline{\gamma}, \sigma_{\gamma}) \quad \text{for} \quad l = 1, 2, \dotsc, 12  \\
+\delta_{l} &\sim \text{Normal}(\overline{\delta}, \sigma_{\delta}) \quad \text{for} \quad l = 1, 2, \dotsc, 5
 \end{aligned}
 $$
 
