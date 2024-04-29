@@ -1,6 +1,6 @@
-# Question 22307
+# Motivation
 
-The resolution criteria for [Metaculus](https://en.wikipedia.org/wiki/Metaculus) question [22307](https://www.metaculus.com/questions/22307/tornadoes-in-the-united-states-in-april-2024/), which is part of the [Bridgewater Forecasting Contest](https://www.metaculus.com/tournament/bridgewater/), reads:
+As with (likely) most of the other models in this repository, their raison d'être is to faciliate forecasting on [Metaculus](https://en.wikipedia.org/wiki/Metaculus) question [22307](https://www.metaculus.com/questions/22307/tornadoes-in-the-united-states-in-april-2024/), which is part of the [Bridgewater Forecasting Contest](https://www.metaculus.com/tournament/bridgewater/). The resolution criteria for question 22307 reads:
 
 ::: {.bquote}
 This question will resolve as the number of tornadoes in the United States in April of 2024, according to the [Storm Prediction Center's preliminary tornado summary](https://www.spc.noaa.gov/climo/summary/).
@@ -10,11 +10,22 @@ If the resolution value is below the lower bound or above the upper bound, the q
 The question will resolve as the number of tornadoes shown for the month of April 2024 when accessed by Metaculus on May 3, 2024. If there is a discrepancy between the "Map" and "Tables" views, the question resolves to the figure displayed on the "Map" view.
 :::
 
-The National Oceanic and Atmospheric Administration's ([NOAA](https://www.noaa.gov/)) [Storm Prediction Center](https://www.spc.noaa.gov/climo/summary/) permits data downloading (though it seems quite tedious), so computional modelling is possible. The data available for us to use includes tornadoes, wind, and hail counts for each state, by month and year (1950 to 2024). For more information about data collection, see the Appendix.
+By the time you are reading this, the question has very likely closed. Also, given that the open upper bound on the question begins at 300 and that the National Oceanic and Atmospheric Administration's ([NOAA](https://www.noaa.gov/)) [Storm Prediction Center](https://www.spc.noaa.gov/climo/summary/) reports 310 as the number of preliminary tornadoes across the USA in April 2024, you might be saying to yourself, how can this brief report help me? Well dear forecaster, should a similar question come up on Metaculus, even if it is not necessarily about tornadoes, then the following discussion might prove valuable. There is additionally an argument to be made that $$P(\text{Finds The Below Interesting } | \text{ Participates On Metaculus})$$ is high...but you can always stop reading at any time.
 
-So, how can we model the expected number of tornadoes for April 2024 in the United States?
+Before we begin, though, the author wants to note that NOAA does indeed permit data downloading; however, this process is quite tedious and annoying! Please commend the author on their patience manually copying the data into text files. The data available for use in modelling includes tornado, wind, and hail counts for each state, by month and year (1950 to 2024). The author downloaded the _preliminary_ report values for January 2019 to March 2024, since this is what the forecast target is and since, for many months across many states in the distant past, final reports are still not available. For more information about the data collection, see the [Appendix](#appendix).
 
-# Model A
+
+# Model(s)
+
+Tornado counts vary across state, month, and year. One might imagine that climatic factor change over time (across years), that during different months climatic factors tends more or less to the formation of tornadoes, and that the rate of tornado formation is also affected by certain factors explained by geographical location (states). 
+
+## State Model
+
+
+
+
+[@mcelreath2018statistical]
+
 
 <!-- Well, the number of tornadoes in state $s$, month $m$, and year $t$ can be described as $$Y_{smt} = \alpha_s + \gamma_m + \delta_t + \varepsilon_{smt}$$ (a [multilevel model](https://en.wikipedia.org/wiki/Multilevel_model)) where $\alpha_s$ is the random intercept which describes the unique tornado activity of each state $s$, $\gamma_m$ is the fixed effect describing seasonal variation across each month $m$, $\delta_t$ is the fixed effect describing trends in tornado activity across each year $t$, and $\varepsilon_{smt} \sim \mathcal{N}(0, \sigma^2)$ is the residual error (unmodelled variance) for state $s$, month $m$, and year $t$.   -->
 
@@ -111,7 +122,7 @@ def posterior_predictive_distribution(
 
 ## Adding Wind As A Predictor
 
-# Appendix
+# [Appendix](#appendix)
 
 ## Random Intercepts And Slopes
 

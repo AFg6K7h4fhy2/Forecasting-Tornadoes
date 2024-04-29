@@ -19,50 +19,7 @@ Once this is done, type `poetry shell`. To close the environment, type `exit`.
 `tree | grep -Ev "\.png|\.pyc|\.txt|\.csv"`
 
 
-```
-.
-├── CONTRIBUTING.md
-├── LICENSE
-├── README.md
-├── _typos.toml
-├── assets
-│   └── figures
-├── data
-│   ├── clean
-│   └── raw
-├── model_E414_01
-│   ├── __init__.py
-│   ├── docs
-│   │   ├── Makefile
-│   │   ├── output
-│   │   │   └── out.pdf
-│   │   └── source
-│   │       ├── metadata.yml
-│   │       ├── model.md
-│   │       └── references.bib
-│   ├── output
-│   │   ├── April_2024
-│   │   └── May_2024
-│   ├── params.toml
-│   └── src
-│       ├── __init__.py
-│       ├── __pycache__
-│       ├── model.py
-│       └── run.py
-├── poetry.lock
-├── pyproject.toml
-└── utils
-    ├── __init__.py
-    ├── __pycache__
-    ├── config.py
-    ├── data.py
-    ├── inf.py
-    ├── save.py
-    ├── transform.py
-    └── vis.py
 
-17 directories, 92 files
-```
 
 
 ## Setting Up A Model
