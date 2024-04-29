@@ -17,3 +17,23 @@ Last Updated
 ------------
 2024-04-28
 """
+
+import numpyro as npro
+
+
+def plot_priors(
+    dist: npro.distribution,
+    num_samples: int,
+    is_hyper: bool,
+    style_path: str,
+):
+    pass
+
+
+def run_plot_priors():
+    """
+    A manually useable function for
+    plotting prior distributions and
+    generating figures from them.
+    """
+    pass

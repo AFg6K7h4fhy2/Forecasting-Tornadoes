@@ -79,7 +79,12 @@ us_state_abbreviations = [
 
 # associate numerical values with US states, starting from 1
 us_state_values = dict(
-    list(zip(us_state_abbreviations, list(range(1, len(us_state_abbreviations)+1))))
+    list(
+        zip(
+            us_state_abbreviations,
+            list(range(1, len(us_state_abbreviations) + 1)),
+        )
+    )
 )
 
 month_values = {
@@ -99,9 +104,7 @@ month_values = {
 
 
 def get_NOAA_SPC_data(
-    data_read_path: str, 
-    data_save_path: str, 
-    use_preliminary: bool = True
+    data_read_path: str, data_save_path: str, use_preliminary: bool = True
 ) -> pl.DataFrame:
     """
     Converts raw NOAA Storm Prediction Center (SPC) into csv via polars.

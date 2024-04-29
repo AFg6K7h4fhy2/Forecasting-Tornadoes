@@ -19,6 +19,6 @@ documentclass: article
 linkcolor: black
 urlcolor: gray
 filecolor: magenta
-citecolor: cyan
+citecolor: black
 link-citations: true
 ---

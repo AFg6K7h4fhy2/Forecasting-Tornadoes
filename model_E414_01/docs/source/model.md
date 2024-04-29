@@ -1,6 +1,6 @@
 # Motivation
 
-As with (likely) most of the other models in this repository, their raison d'être is to faciliate forecasting on [Metaculus](https://en.wikipedia.org/wiki/Metaculus) question [22307](https://www.metaculus.com/questions/22307/tornadoes-in-the-united-states-in-april-2024/), which is part of the [Bridgewater Forecasting Contest](https://www.metaculus.com/tournament/bridgewater/). The resolution criteria for question 22307 reads:
+As with (likely) most of the other models in this repository, their raison d'être is to facilitate forecasting on [Metaculus](https://en.wikipedia.org/wiki/Metaculus) question [22307](https://www.metaculus.com/questions/22307/tornadoes-in-the-united-states-in-april-2024/), which is part of the [Bridgewater Forecasting Contest](https://www.metaculus.com/tournament/bridgewater/). The resolution criteria for question 22307 reads:
 
 ::: {.bquote}
 This question will resolve as the number of tornadoes in the United States in April of 2024, according to the [Storm Prediction Center's preliminary tornado summary](https://www.spc.noaa.gov/climo/summary/).
@@ -10,123 +10,111 @@ If the resolution value is below the lower bound or above the upper bound, the q
 The question will resolve as the number of tornadoes shown for the month of April 2024 when accessed by Metaculus on May 3, 2024. If there is a discrepancy between the "Map" and "Tables" views, the question resolves to the figure displayed on the "Map" view.
 :::
 
-By the time you are reading this, the question has very likely closed. Also, given that the open upper bound on the question begins at 300 and that the National Oceanic and Atmospheric Administration's ([NOAA](https://www.noaa.gov/)) [Storm Prediction Center](https://www.spc.noaa.gov/climo/summary/) reports 310 as the number of preliminary tornadoes across the USA in April 2024, you might be saying to yourself, how can this brief report help me? Well dear forecaster, should a similar question come up on Metaculus, even if it is not necessarily about tornadoes, then the following discussion might prove valuable. There is additionally an argument to be made that $$P(\text{Finds The Below Interesting } | \text{ Participates On Metaculus})$$ is high...but you can always stop reading at any time.
+By the time you are reading this, the question has very likely closed. Also, given that the open upper bound on the question begins at 300 and that the National Oceanic and Atmospheric Administration's ([NOAA](https://www.noaa.gov/)) [Storm Prediction Center](https://www.spc.noaa.gov/climo/summary/) reports 310 as the number of preliminary tornadoes across the USA in April 2024, you might be saying to yourself, how can this brief report help me? Well dear forecaster, should a similar question come up on Metaculus, even if it is not necessarily about tornadoes, then the following discussion—on [multilevel modelling](https://en.wikipedia.org/wiki/Multilevel_model)—might enable you to produce better, more statistically informed Metaculus forecasts. There is additionally an argument to be made that $$P(\text{Finds The Below Interesting } | \text{ Participates On Metaculus})$$ is high...but you can always stop reading at any time.
 
-Before we begin, though, the author wants to note that NOAA does indeed permit data downloading; however, this process is quite tedious and annoying! Please commend the author on their patience manually copying the data into text files. The data available for use in modelling includes tornado, wind, and hail counts for each state, by month and year (1950 to 2024). The author downloaded the _preliminary_ report values for January 2019 to March 2024, since this is what the forecast target is and since, for many months across many states in the distant past, final reports are still not available. For more information about the data collection, see the [Appendix](#appendix).
+Before we begin, though, the author wants to note that NOAA does indeed permit data downloading; however, this process is quite tedious and annoying! Please commend the author on their patience manually copying the data into text files. The data available for use in modelling includes tornado, wind, and hail counts for each state, by month and year (1950 to 2024). Find the data [here](https://github.com/AFg6K7h4fhy2/Forecasting-Tornadoes/tree/dev-118777/data/clean). The author downloaded the _preliminary_ report values (given that this is the forecasting target for question 22307) for January 2019 to March 2024. Final reports were not downloaded since for many months across many states in the distant past, these report values are still not available.
+
+_The author is still maturing mathematically_, so (please!) gaze upon the statistical sections with skeptical eyes. Note as well that the author operates by [Crocker's Rules](https://www.lesswrong.com/tag/crockers-rules), so criticism is welcome. To critique, please make a new issue [here](https://github.com/AFg6K7h4fhy2/Forecasting-Tornadoes/issues). The following was informed in part from Richard McElreath's 13th chapter of [Statistical Rethinking](https://www.taylorfrancis.com/books/mono/10.1201/9780429029608/statistical-rethinking-richard-mcelreath) [@mcelreath2018statistical]
 
 
 # Model(s)
 
-Tornado counts vary across state, month, and year. One might imagine that climatic factor change over time (across years), that during different months climatic factors tends more or less to the formation of tornadoes, and that the rate of tornado formation is also affected by certain factors explained by geographical location (states). 
+Tornado counts vary across state, month, and year. One might imagine that climatic factors change over time (across years), that the formation of tornadoes alters within a year, over different months, and that the rate of tornado formation is also affected by local geographical features (state location).
 
-## State Model
+To adequately incorporate information across these categories, we can create a [multilevel model](https://en.wikipedia.org/wiki/Multilevel_model). For each relevant category (`State`, `Month`, `Year`) available to us, we want to estimate its intercept and internal variation (e.g., across each `State`, how does tornado count vary?).
 
+Since we are estimating tornado _counts_, a [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution) seems appropriate.
 
+Proceeding, let $\alpha_i$ denote the random effect of the location of state $i$ on expected tornado count. Further, let $\gamma_j$ and $\delta_k$ denote the random of effects of month $j$ on and year $k$, respectively, on expected tornado count. Let the expected tornado count for state $i$, month $j$, and year $k$ be called $Y_{ijk}$.
 
+The tornado count $T_{ijk}$ for state $i$, month $j$, and year $k$ can be modelled via $T_{ijk} \sim \text{Poisson}(Y_{ijk})$, where $\log (Y_{ijk}) = \alpha_{\textsc{state}[i]} + \gamma_{\textsc{month}[j]} + \delta_{\textsc{year}[i]}$, i.e. $Y_{ijk}$ is [log-linear](https://en.wikipedia.org/wiki/Log-linear_model).
 
-[@mcelreath2018statistical]
+Note that the author is "uncertain" regarding what constitute "appropriate" priors distributions and parameter values to use for a model on tornadoes. Note also that the author explores these decisions somewhat via a [sensitivity analysis](https://en.wikipedia.org/wiki/Sensitivity_analysis). The prior values for the hyperparameters $\overline{\alpha}$, $\overline{\gamma}$, and $\overline{\delta}$ represent the author's best guess that state effects vary more than year effects vary more than month effects, with respect to tornado count.
 
-
-<!-- Well, the number of tornadoes in state $s$, month $m$, and year $t$ can be described as $$Y_{smt} = \alpha_s + \gamma_m + \delta_t + \varepsilon_{smt}$$ (a [multilevel model](https://en.wikipedia.org/wiki/Multilevel_model)) where $\alpha_s$ is the random intercept which describes the unique tornado activity of each state $s$, $\gamma_m$ is the fixed effect describing seasonal variation across each month $m$, $\delta_t$ is the fixed effect describing trends in tornado activity across each year $t$, and $\varepsilon_{smt} \sim \mathcal{N}(0, \sigma^2)$ is the residual error (unmodelled variance) for state $s$, month $m$, and year $t$.   -->
-
-Well, the number of tornadoes in state $s$, month $m$, and year $t$ can be described as $$Y_{smt} = \alpha_s + \gamma_m + \delta_t + \theta_{mt}$$ (a [multilevel model](https://en.wikipedia.org/wiki/Multilevel_model)) where $\alpha_s$ is the random intercept which describes the unique tornado activity of each state $s$, $\gamma_m$ is the fixed effect describing seasonal variation across each month $m$, $\delta_t$ is the fixed effect describing trends in tornado activity across each year $t$, and $\theta_{mt}$ is an interaction term for describing how the effect of a given month might change over the years.
-
-Since we are interested in the _rate_ of tornadoes, we believe $Y_{smt} \sim \text{Poisson}(\lambda_{smt})$, where $\log(\lambda_{smt}) = \alpha_s + \gamma_m + \delta_t + \theta_{mt}$. Let us assume
+Adaptive priors:
 
 $$
 \begin{aligned}
-\sigma_\alpha, \sigma_\gamma, \sigma_\delta, \sigma_\theta &\sim \text{Exponential}(1.0) \\
-\alpha_s &\sim \mathcal{N}(0, \sigma_\alpha) \\
-\gamma_m &\sim \mathcal{N}(0, \sigma_\gamma) \\
-\delta_t &\sim \mathcal{N}(0, \sigma_\delta) \\
-\theta_{mt} &\sim \mathcal{N}(0, \sigma_\theta)
+\alpha_{l} &\sim \text{Normal}(\overline{\alpha}, \sigma_{\alpha}) \quad \text{for} \quad l = 1, 2, \dotsc, 50 \\
+\gamma_{l} &\sim \text{Normal}(\overline{\alpha}, \sigma_{\gamma}) \quad \text{for} \quad l = 1, 2, \dotsc, 12  \\
+\delta_{l} &\sim \text{Normal}(\overline{\alpha}, \sigma_{\delta}) \quad \text{for} \quad l = 1, 2, \dotsc, 5
 \end{aligned}
 $$
 
-As for predicting the number of tornadoes during April 2024, across all states (please forgive the poor form present in the `posterior_predictive_distribution` function and the lack of docstrings—the author will get to these in time):
+where
+
+$$
+\begin{aligned}
+\overline{\alpha} &\sim \text{Normal}(0, 3.0) \\
+\overline{\gamma} &\sim \text{Normal}(0, 1.0) \\
+\overline{\delta} &\sim \text{Normal}(0, 2.0)
+\end{aligned}
+$$
+
+and
+
+$$\sigma_{\alpha}, \sigma_{\gamma}, \sigma_{\delta} \sim \text{Exponential}(1.0)$$
+
+## Implementation
 
 \begin{lstlisting}[style=pyStyle, caption={Model Implementation In Numpyro}, label={lst:model_numpyro}]
-def tornado_modelA(state=None, month=None, year=None, tornadoes=None):
-    num_states = len(np.unique(state))
-    num_months = len(np.unique(month))
-    num_years = len(np.unique(year))
+def model_01(states=None, months=None, years=None, tornadoes=None):
 
-    sigma_alpha = npro.sample("sigma_alpha", dist.Exponential(1.0))
-    sigma_gamma = npro.sample("sigma_gamma", dist.Exponential(1.0))
-    sigma_delta = npro.sample("sigma_delta", dist.Exponential(1.0))
-    sigma_theta = npro.sample("sigma_theta", dist.Exponential(1.0))
+    # states, months, years, and tornadoes represented
+    num_states = len(np.unique(states))
+    num_months = len(np.unique(months))
+    num_years = len(np.unique(years))
+    num_tornados = len(tornadoes)
 
-    alpha = npro.sample(
-        "alpha", dist.Normal(0, sigma_alpha), sample_shape=(num_states,)
-    )
-    gamma = npro.sample(
-        "gamma", dist.Normal(0, sigma_gamma), sample_shape=(num_months,)
-    )
-    delta = npro.sample(
-        "delta", dist.Normal(0, sigma_delta), sample_shape=(num_years,)
-    )
-    theta = npro.sample(
-        "theta",
-        dist.Normal(0, sigma_theta),
-        sample_shape=(num_months, num_years),
-    )
+    # state effect hyperparameters
+    alpha_mu = npro.sample("alpha_mu", dist.Normal(0, 3.0))
+    alpha_sigma = npro.sample("alpha_sigma", dist.Exponential(1.0))
 
-    lambda_ = jnp.exp(
-        alpha[state] + gamma[month] + delta[year] + theta[month, year]
-    )
-    npro.sample("obs", dist.Poisson(lambda_), obs=tornadoes)
+    # state effect
+    with npro.plate("states", num_states):
+        alpha = npro.sample("alpha", dist.Normal(alpha_mu, alpha_sigma))
 
+    # month effect hyperparameters
+    gamma_mu = npro.sample("gamma_mu", dist.Normal(0, 1.0))
+    gamma_sigma = npro.sample("gamma_sigma", dist.Exponential(1.0))
 
-def inference(model: Callable, cf: dict, data: pl.DataFrame, save_path: str):
-    nuts_kernel = npro.infer.NUTS(
-        model,
-        dense_mass=True,
-        max_tree_depth=cf["inference"]["max_tree_depth"],
-        init_strategy=npro.infer.init_to_median,
-    )
-    mcmc = npro.infer.MCMC(
-        nuts_kernel,
-        num_warmup=cf["inference"]["num_warmup"],
-        num_samples=cf["inference"]["num_samples"],
-        num_chains=cf["inference"]["num_chains"],
-        progress_bar=cf["inference"]["progress_bar"],
-    )
-    rng_key = jr.PRNGKey(cf["reproducibility"]["seed"])
-    mcmc.run(
-        rng_key,
-        state=jnp.array(data["State"].to_numpy()),
-        month=jnp.array(data["Month"].to_numpy()),
-        year=jnp.array(data["Year"].to_numpy()),
-        tornadoes=jnp.array(data["Tornado"].to_numpy()),
-    )
-    if cf["inference"]["summary"]:
-        mcmc.print_summary()
-    return mcmc.get_samples()
+    # month effect
+    with npro.plate("months", num_months):
+        gamma = npro.sample("gamma", dist.Normal(gamma_mu, gamma_sigma))
 
-def posterior_predictive_distribution(
-    samples, model, cf
-):
-    predictive = npro.infer.Predictive(
-        model, posterior_samples=samples
-    )
-    rng_key = jr.PRNGKey(cf["reproducibility"]["seed"])
-    post_pred = predictive(
-        rng_key,
-        state=jnp.array(list(range(50))),
-        month=jnp.array([3]),
-        year=jnp.array([2024])
-    )
-    return post_pred
+    # year effect hyperparameters
+    delta_mu = npro.sample("delta_mu", dist.Normal(0, 2.0))
+    delta_sigma = npro.sample("delta_sigma", dist.Exponential(1.0))
+
+    # year effect
+    with npro.plate("years", num_years):
+        delta = npro.sample("delta", dist.Normal(delta_mu, delta_sigma))
+
+    # expected tornadoes
+    Y = jnp.exp(alpha[states] + gamma[months] + delta[years])
+
+    # likelihood
+    with npro.plate("data", size=num_tornados):
+        npro.sample("obs", dist.Poisson(Y), obs=tornadoes)
 \end{lstlisting}
 
+## Inference
 
-## Adding Wind As A Predictor
+### Prior
+
+### Prior Predictive Check
+
+### Posterior Predictive Check
+
+### Posterior Samples
+
+### Other Results
 
 # [Appendix](#appendix)
 
 ## Random Intercepts And Slopes
 
-From Wikipedia, accessed 2024-04-20.
+From the Wikipedia page on multilevel models (linked earlier), accessed 2024-04-20.
 
 ::: {.bquote}
 
@@ -145,15 +133,52 @@ __Random intercepts and slopes model__
 A model that includes both random intercepts and random slopes is likely the most realistic type of model, although it is also the most complex. In this model, both intercepts and slopes are allowed to vary across groups, meaning that they are different in different contexts.^[5](https://en.wikipedia.org/wiki/Multilevel_model#cite_note-Cohen-5)^
 :::
 
-## Gathering Data From NOAA
+## McElreath Multilevel Modelling
 
-Note that there are preliminary and final counts. Since some entries do not have final counts, even though many years have passed, and since the question resolves based on the preliminary counts,
+Description from pp. 400 of the 2nd edition of Statistical Rethinking:
 
+::: {.bquote}
+These models remember features of each cluster in the data as they learn
+about all of the clusters. Depending upon the variation among clusters, which is learned
+from the data as well, the model pools information across clusters. This pooling tends to
+improve estimates about each cluster. This improved estimation leads to several, more prag-
+matic sounding, benefits of the multilevel approach. I mentioned them in Chapter 1. They
+are worth repeating.
 
-## Full Code
+1. Improved estimates for repeat sampling. When more than one observation arises
+from the same individual, location, or time, then traditional, single-level models
+either maximally underfit or overfit the data.
 
+2. Improved estimates for imbalance in sampling. When some individuals, locations,
+or times are sampled more than others, multilevel models automatically cope with
+differing uncertainty across these clusters. This prevents over-sampled clusters
+from unfairly dominating inference.
 
-## Notes
+3. Estimates of variation. If our research questions include variation among individu-
+also or other groups within the data, then multilevel models are a big help, because
+they model variation explicitly.
+
+4. Avoid averaging, retain variation. Frequently, scholars pre-average some data to
+construct variables. This can be dangerous, because averaging removes variation,
+and there are also typically several different ways to perform the averaging. Aver-
+aging therefore both manufactures false confidence and introduces arbitrary datatransformations. Multilevel models allow us to preserve the uncertainty and avoid
+data transformations
+:::
+
+Description from pp. 401 of the 2nd edition of Statistical Rethinking:
+
+::: {.bquote}
+Rethinking: A model by any other name. Multilevel models go by many different names, and some
+statisticians use the same names for different specialized variants, while others use them all inter-
+changeably. The most common synonyms for “multilevel” are hierarchical and mixed effects.
+The type of parameters that appear in multilevel models are most commonly known as random ef-
+fects, which itself can mean very different things to different analysts and in different contexts.193
+And even the innocent term “level” can mean different things to different people. There’s really no
+cure for this swamp of vocabulary aside from demanding a mathematical or algorithmic definition
+of the model. Otherwise, there will always be ambiguity
+:::
+
+<!-- ## Notes
 
 * Have a tree diagram in the README.
 * Have Mermaid model in the README for each model.
@@ -168,3 +193,7 @@ Note that there are preliminary and final counts. Since some entries do not have
   * CONTRIBUTING.md
   * ISSUE TEMPLATE
 * Discussion on Save, Transform, Vis., Data patterns.
+* Selecting baseline model
+* Decision for where to store data visualization-->
+
+## References

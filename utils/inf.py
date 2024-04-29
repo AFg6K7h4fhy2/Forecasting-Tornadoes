@@ -15,16 +15,19 @@ Last Updated
 2024-04-28
 """
 
-from jax.typing import ArrayLike
 from typing import Callable
-import numpyro as npro
+
+import jax.numpy as jnp
 import jax.random as jr
+import numpyro as npro
 import polars as pl
+from jax.typing import ArrayLike
+
 
 def samples(
-    model: Callable, 
-    cf: dict[str, dict[str, bool | int | float]], 
-    data: pl.DataFrame
+    model: Callable,
+    cf: dict[str, dict[str, bool | int | float]],
+    data: pl.DataFrame,
 ) -> dict[str, ArrayLike]:
     nuts_kernel = npro.infer.NUTS(
         model,
@@ -52,26 +55,27 @@ def samples(
         mcmc.print_summary()
     return mcmc.get_samples()
 
+
 def prior_predictive_distribution(
-    model: Callable, 
-    cf: dict[str, dict[str, bool | int | float]]
+    model: Callable, cf: dict[str, dict[str, bool | int | float]]
 ) -> dict[str, ArrayLike]:
     predictive = npro.infer.Predictive(
-        model, num_samples=cf["inference"]["num_samples"])
+        model, num_samples=cf["inference"]["num_samples"]
+    )
     rng_key = jr.PRNGKey(cf["reproducibility"]["seed"])
     prior_pred = predictive(rng_key)
     return prior_pred
 
+
 def posterior_predictive_distribution(
-    samples: dict[str, ArrayLike], 
+    samples: dict[str, ArrayLike],
     model: Callable,
     cf: dict[str, dict[str, bool | int | float]],
     states: ArrayLike,
     months: ArrayLike,
     years: ArrayLike,
 ) -> dict[str, ArrayLike]:
-    predictive = npro.infer.Predictive(
-        model, posterior_samples=samples)
+    predictive = npro.infer.Predictive(model, posterior_samples=samples)
     rng_key = jr.PRNGKey(cf["reproducibility"]["seed"])
     post_pred = predictive(
         rng_key,

@@ -12,7 +12,7 @@ STYLEDIR=$(BASEDIR)/style
 PREAMBLE=$(BASEDIR)/../../../Personal-Templates/pandoc/styles/preamble.latex
 GLOSSARY=$(BASEDIR)/../../../Personal-Templates/pandoc/styles/glossary.latex
 TEMPLATE=$(BASEDIR)/../../../Personal-Templates/pandoc/styles/template.latex
-CSL=$(BASEDIR)/../../../Personal-Templates/pandoc/styles/csls/chicago-fullnote-bibliography-with-ibid.csl
+CSL=$(BASEDIR)/../../../Personal-Templates/pandoc/styles/csls/ieee-with-url.csl
 FILTERS=$(BASEDIR)/../../../Personal-Templates/pandoc/filters
 
 pdf:
@@ -26,7 +26,6 @@ pdf:
 		"$(INPUTDIR)"/*.md \
 		"$(INPUTDIR)/metadata.yml" \
 		--lua-filter="$(FILTERS)/bquote.lua" \
-		--lua-filter="$(FILTERS)/gitH.lua" \
 		--lua-filter="$(FILTERS)/fig.lua" \
 		--bibliography="$(BIBFILE)" \
 		--citeproc \

@@ -1,19 +1,30 @@
 """
-Runs the model.
+Run model(s) E414 01.
+
+Authors
+-------
+118777
+
+Date Created
+------------
+2024-04-23
+
+Last Updated
+------------
+2024-04-28
 """
 
-import jax.numpy as jnp
-import numpy as np
-import polars as pl
-import toml
-
-import sys
 import os
+import sys
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.append(
+    os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    )
+)
 
 
-#from model import tornado_modelA
+# from model import tornado_modelA
 from utils.config import load_and_valid_config
 
 # from vis import vis_tornado_data, vis_prediction
@@ -21,7 +32,7 @@ from utils.config import load_and_valid_config
 
 def main():
 
-    # load config 
+    # load config
     cf = load_and_valid_config("../params_A.toml")
     print(cf)
 
