@@ -103,7 +103,11 @@ month_values = {
 }
 
 
-def get_NOAA_SPC_data(
+def get_NOAA_SPC_data():
+    pass
+
+
+def aggregate_NOAA_SPC_data(
     data_read_path: str, data_save_path: str, use_preliminary: bool = True
 ) -> pl.DataFrame:
     """
@@ -198,4 +202,4 @@ def get_NOAA_SPC_data(
 
 
 # NOTE: should not be run if cleaned_NOAA_SPC.csv exists in data/clean
-# get_NOAA_SPC_data("../data/raw/", "../data/clean/cleaned_NOAA_SPC.csv")
+# aggregate_NOAA_SPC_data("../data/raw/", "../data/clean/cleaned_NOAA_SPC.csv")

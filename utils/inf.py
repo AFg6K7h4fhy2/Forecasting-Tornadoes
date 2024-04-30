@@ -53,7 +53,7 @@ def samples(
     )
     if cf["inference"]["print_summary"]:
         mcmc.print_summary()
-    return mcmc.get_samples()
+    return mcmc.get_samples(), mcmc
 
 
 def prior_predictive_distribution(

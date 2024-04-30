@@ -27,7 +27,7 @@ Since we are estimating tornado _counts_, a [Poisson distribution](https://en.wi
 
 Proceeding, let $\alpha_i$ denote the random effect of the location of state $i$ on expected tornado count. Further, let $\gamma_j$ and $\delta_k$ denote the random of effects of month $j$ on and year $k$, respectively, on expected tornado count. Let the expected tornado count for state $i$, month $j$, and year $k$ be called $Y_{ijk}$.
 
-The tornado count $T_{ijk}$ for state $i$, month $j$, and year $k$ can be modelled via $T_{ijk} \sim \text{Poisson}(Y_{ijk})$, where $\log (Y_{ijk}) = \alpha_{\textsc{state}[i]} + \gamma_{\textsc{month}[j]} + \delta_{\textsc{year}[i]}$, i.e. $Y_{ijk}$ is [log-linear](https://en.wikipedia.org/wiki/Log-linear_model).
+The tornado count $T_{ijk}$ for state $i$, month $j$, and year $k$ can be modelled via $T_{ijk} \sim \text{Poisson}(Y_{ijk})$, where $\log (Y_{ijk}) = \alpha_{\textsc{state}[i]} + \gamma_{\textsc{month}[j]} + \delta_{\textsc{year}[k]}$, i.e. $Y_{ijk}$ is [log-linear](https://en.wikipedia.org/wiki/Log-linear_model).
 
 Note that the author is "uncertain" regarding what constitute "appropriate" priors distributions and parameter values to use for a model on tornadoes. Note also that the author explores these decisions somewhat via a [sensitivity analysis](https://en.wikipedia.org/wiki/Sensitivity_analysis). The prior values for the hyperparameters $\overline{\alpha}$, $\overline{\gamma}$, and $\overline{\delta}$ represent the author's best guess that state effects vary more than year effects vary more than month effects, with respect to tornado count.
 
@@ -35,9 +35,9 @@ Adaptive priors:
 
 $$
 \begin{aligned}
-\alpha_{l} &\sim \text{Normal}(\overline{\alpha}, \sigma_{\alpha}) \quad \text{for} \quad l = 1, 2, \dotsc, 50 \\
-\gamma_{l} &\sim \text{Normal}(\overline{\gamma}, \sigma_{\gamma}) \quad \text{for} \quad l = 1, 2, \dotsc, 12  \\
-\delta_{l} &\sim \text{Normal}(\overline{\delta}, \sigma_{\delta}) \quad \text{for} \quad l = 1, 2, \dotsc, 5
+\alpha_{i} &\sim \mathcal{N}(\overline{\alpha}, \sigma_{\alpha}) \quad \text{for} \quad i = 1, 2, \dotsc, 50 \\
+\gamma_{j} &\sim \mathcal{N}(\overline{\gamma}, \sigma_{\gamma}) \quad \text{for} \quad j = 1, 2, \dotsc, 12  \\
+\delta_{k} &\sim \mathcal{N}(\overline{\delta}, \sigma_{\delta}) \quad \text{for} \quad k = 1, 2, \dotsc, 5
 \end{aligned}
 $$
 
@@ -45,15 +45,22 @@ where
 
 $$
 \begin{aligned}
-\overline{\alpha} &\sim \text{Normal}(0, 3.0) \\
-\overline{\gamma} &\sim \text{Normal}(0, 1.0) \\
-\overline{\delta} &\sim \text{Normal}(0, 2.0)
+\overline{\alpha} &\sim \mathcal{N}(0, \sigma_{\overline{\alpha}}) \\
+\overline{\gamma} &\sim \mathcal{N}(0, \sigma_{\overline{\gamma}}) \\
+\overline{\delta} &\sim \mathcal{N}(0, \sigma_{\overline{\delta}})
 \end{aligned}
 $$
 
 and
 
-$$\sigma_{\alpha}, \sigma_{\gamma}, \sigma_{\delta} \sim \text{Exponential}(1.0)$$
+$$
+\begin{aligned}
+\sigma_{\alpha}, \sigma_{\gamma}, \sigma_{\delta} &\sim \text{Exponential}(1.0)  \\
+\sigma_{\overline{\alpha}}, \sigma_{\overline{\gamma}}, \sigma_{\overline{\delta}} &\sim \mathcal{U}(0.0, 6.0)
+\end{aligned}
+$$
+
+
 
 ## Implementation
 

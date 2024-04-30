@@ -23,7 +23,9 @@ sys.path.append(
     )
 )
 
+import arviz as az
 import jax.numpy as jnp
+import matplotlib.pyplot as plt
 import polars as pl
 from model import model_01
 
@@ -41,24 +43,34 @@ def main():
     data = pl.read_csv(data_path)
 
     # get samples
-    samples = ut_inf.samples(model_01, cf, data)
+    samples, mcmc = ut_inf.samples(model_01, cf, data)
 
-    # get posterior samples
-    post_samples = ut_inf.posterior_predictive_distribution(
-        samples,
-        model_01,
-        cf,
-        states=jnp.array(list(range(1, 50 + 1))),
-        months=jnp.array([4]),
-        years=jnp.array([5]),
+    # prior predictive
+    prior_pred = ut_inf.prior_predictive_distribution(model_01, cf)
+    print(prior_pred["obs"])
+
+    # posterior predictive check
+    target_states = jnp.array(data["State"].to_numpy())
+    target_months = jnp.array(data["Month"].to_numpy())
+    target_years = jnp.array(data["Year"].to_numpy())
+    post_pred_check = ut_inf.posterior_predictive_distribution(
+        samples, model_01, cf, target_states, target_months, target_years
     )
+    print(post_pred_check["obs"])
 
-    print(post_samples)
-    print(post_samples["obs"])
-    print(jnp.mean(post_samples["obs"], axis=1))
-    print(jnp.sum(jnp.mean(post_samples["obs"], axis=1)))
-    print(jnp.mean(post_samples["obs"], axis=0))
-    print(jnp.sum(jnp.mean(post_samples["obs"], axis=0)))
+    # posterior predictive forecasting
+    target_states = jnp.array(list(range(1, 50 + 1)))
+    target_months = jnp.array([4])
+    target_years = jnp.array([5])
+    post_pred_forecast = ut_inf.posterior_predictive_distribution(
+        samples, model_01, cf, target_states, target_months, target_years
+    )
+    print(post_pred_forecast["obs"])
+    print(jnp.mean(post_pred_forecast["obs"], axis=1))
+    print(jnp.sum(jnp.mean(post_pred_forecast["obs"], axis=1)))
+
+    az.plot_ppc(az.from_numpyro(mcmc, posterior_predictive=post_pred_forecast))
+    plt.show()
 
 
 if __name__ == "__main__":

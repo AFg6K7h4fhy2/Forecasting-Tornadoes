@@ -65,7 +65,7 @@ Once this is done, type `poetry shell`. To close the environment, type `exit`.
 ```
 
 
-## Setting Up A Model
+<!-- ## Setting Up A Model
 
 
 
@@ -76,4 +76,4 @@ __Equations__
 
 
 
-__Diagram__
+__Diagram__ -->

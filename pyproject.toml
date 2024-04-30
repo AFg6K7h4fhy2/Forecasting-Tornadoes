@@ -12,6 +12,8 @@ pre-commit = "^3.7.0"
 polars = "^0.20.22"
 numpyro = "^0.14.0"
 toml = "^0.10.2"
+arviz = "^0.18.0"
+matplotlib = "^3.8.4"
 
 
 [build-system]

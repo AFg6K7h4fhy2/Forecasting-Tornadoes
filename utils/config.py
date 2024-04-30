@@ -11,7 +11,7 @@ Date Created
 
 Last Updated
 ------------
-2024-04-28
+2024-04-30
 """
 
 import os
@@ -19,6 +19,45 @@ from copy import copy
 
 import toml
 from toml.decoder import TomlDecodeError
+
+
+def quick_load_and_valid_config(
+    cf_path: str,
+) -> dict[str, dict[str, bool | int | float]]:
+    """
+    Loads and validations model params.toml configuration files in a risky
+    manner, with fewer checks.
+
+    Parameters
+    ----------
+    cf_path : str
+        The configuration file path
+
+    Returns
+    -------
+    dict[str, dict[str, bool | int | float]]
+        A dictionary of config params.
+    """
+
+    if not os.path.exists(cf_path):
+        raise ValueError(
+            f"{cf_path} does not point to a valid configuration file"
+        )
+    try:
+        with open(cf_path, "r") as toml_file:
+            cf = toml.load(toml_file)
+            toml_file.close()
+    except FileNotFoundError:
+        raise FileNotFoundError(
+            f"The configuration file was not found at {cf_path}."
+        )
+    except TomlDecodeError as e:
+        raise TomlDecodeError(f"Error decoding the TOML file: {e}")
+    except Exception as e:
+        raise Exception(
+            f"{e}\nThe toml configuration file was unable to be loaded."
+        )
+    return cf
 
 
 def load_and_valid_config(
@@ -34,7 +73,7 @@ def load_and_valid_config(
 
     Returns
     -------
-    dict
+    dict[str, dict[str, bool | int | float]]
         A dictionary of config params.
 
     Notes
@@ -43,27 +82,7 @@ def load_and_valid_config(
     cf["<category>"]["<category_config_param"]
     """
 
-    # verify files exists
-    if not os.path.exists(cf_path):
-        raise ValueError(
-            f"{cf_path} does not point to a valid configuration file"
-        )
-
-    # try to load the configuration file
-    try:
-        with open(cf_path, "r") as toml_file:
-            cf = toml.load(toml_file)
-            toml_file.close()
-    except FileNotFoundError:
-        raise FileNotFoundError(
-            f"The configuration file was not found at {cf_path}."
-        )
-    except TomlDecodeError as e:
-        raise TomlDecodeError(f"Error decoding the TOML file: {e}")
-    except Exception as e:
-        raise Exception(
-            f"{e}\nThe toml configuration file was unable to be loaded."
-        )
+    cf = quick_load_and_valid_config(cf_path)
 
     # make sure all inputted primary keys are supported
     valid_key_combinations = {

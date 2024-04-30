@@ -33,7 +33,8 @@ def model_01(states=None, months=None, years=None, tornadoes=None):
     num_years = len(np.unique(years))
 
     # state effect hyperparameters
-    alpha_mu = npro.sample("alpha_mu", dist.Normal(0, 3.0))
+    alpha_mu_sigma = npro.sample("alpha_mu_sigma", dist.Uniform(0.0, 6.0))
+    alpha_mu = npro.sample("alpha_mu", dist.Normal(0, alpha_mu_sigma))
     alpha_sigma = npro.sample("alpha_sigma", dist.Exponential(1.0))
 
     # state effect
@@ -41,7 +42,8 @@ def model_01(states=None, months=None, years=None, tornadoes=None):
         alpha = npro.sample("alpha", dist.Normal(alpha_mu, alpha_sigma))
 
     # month effect hyperparameters
-    gamma_mu = npro.sample("gamma_mu", dist.Normal(0, 1.0))
+    gamma_mu_sigma = npro.sample("gamma_mu_sigma", dist.Uniform(0.0, 6.0))
+    gamma_mu = npro.sample("gamma_mu", dist.Normal(0, gamma_mu_sigma))
     gamma_sigma = npro.sample("gamma_sigma", dist.Exponential(1.0))
 
     # month effect
@@ -49,7 +51,8 @@ def model_01(states=None, months=None, years=None, tornadoes=None):
         gamma = npro.sample("gamma", dist.Normal(gamma_mu, gamma_sigma))
 
     # year effect hyperparameters
-    delta_mu = npro.sample("delta_mu", dist.Normal(0, 2.0))
+    delta_mu_sigma = npro.sample("delta_mu_sigma", dist.Uniform(0.0, 6.0))
+    delta_mu = npro.sample("delta_mu", dist.Normal(0, delta_mu_sigma))
     delta_sigma = npro.sample("delta_sigma", dist.Exponential(1.0))
 
     # year effect
@@ -60,7 +63,6 @@ def model_01(states=None, months=None, years=None, tornadoes=None):
     Y = jnp.exp(alpha[states] + gamma[months] + delta[years])
 
     # likelihood
-    # with npro.plate("data", size=len(tornadoes)):
     npro.sample("obs", dist.Poisson(Y), obs=tornadoes)
 
 
