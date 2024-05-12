@@ -59,9 +59,9 @@ def main():
     print(post_pred_check["obs"])
 
     # posterior predictive forecasting
-    target_states = jnp.array(list(range(1, 50 + 1)))
+    target_states = jnp.array(data["State"].to_numpy())
     target_months = jnp.array([4])
-    target_years = jnp.array([5])
+    target_years = jnp.array(data["Year"].to_numpy())
     post_pred_forecast = ut_inf.posterior_predictive_distribution(
         samples, model_01, cf, target_states, target_months, target_years
     )
@@ -72,6 +72,9 @@ def main():
     az.plot_ppc(az.from_numpyro(mcmc, posterior_predictive=post_pred_forecast))
     plt.show()
 
+# use symlinks
+# .gitignore it after
+# 
 
 if __name__ == "__main__":
     main()
