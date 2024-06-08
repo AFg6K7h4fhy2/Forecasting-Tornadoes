@@ -2,13 +2,6 @@
 Linear Regression Model w/ Scipy.
 """
 
-from typing import Callable
-
-import jax.numpy as jnp
-import jax.random as jr
-import numpy as np
-import numpyro as npro
-import numpyro.distributions as dist
 import polars as pl
 import scipy
 import scipy.stats
