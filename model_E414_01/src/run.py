@@ -72,9 +72,10 @@ def main():
     az.plot_ppc(az.from_numpyro(mcmc, posterior_predictive=post_pred_forecast))
     plt.show()
 
+
 # use symlinks
 # .gitignore it after
-# 
+#
 
 if __name__ == "__main__":
     main()
