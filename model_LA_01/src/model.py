@@ -15,15 +15,17 @@ import scipy.stats
 
 
 def create_model_from_data(data: pl.DataFrame, target_month: int):
-    THIS_YEAR = 5
-    
     # get data
     clean_data_file_path = "../data/clean/cleaned_NOAA_SPC.csv"
     data = pl.read_csv(clean_data_file_path)
-    
+
     data_for_target_month = data.filter(pl.col("Month") == target_month)
-    
-    tornadoes_by_year = data_for_target_month.select("Year", "Tornado").group_by(["Year"]).sum()
+
+    tornadoes_by_year = (
+        data_for_target_month.select("Year", "Tornado")
+        .group_by(["Year"])
+        .sum()
+    )
     # This is a time series with "Year" and "Tornado"
     # ┌──────┬─────────┐
     # │ Year ┆ Tornado │
@@ -36,24 +38,25 @@ def create_model_from_data(data: pl.DataFrame, target_month: int):
     # │ 3    ┆ 246     │
     # │ 4    ┆ 121     │
     # └──────┴─────────┘
-        
+
     # Linear regression, using scipy
-    linreg_result = scipy.stats.linregress(tornadoes_by_year["Year"], tornadoes_by_year["Tornado"])
+    linreg_result = scipy.stats.linregress(
+        tornadoes_by_year["Year"], tornadoes_by_year["Tornado"]
+    )
     slope = linreg_result.slope
     intercept = linreg_result.intercept
-    
+
     return LinearRegressionModel(slope, intercept)
+
 
 class LinearRegressionModel:
     def __init__(self, slope, intercept):
         self.slope = slope
         self.intercept = intercept
-    
+
     def predict_value(self, x: float):
         return x * self.slope + self.intercept
-        
-    
-    
+
 
 def predictive_model(state=None, month=None, year=None, tornados=None):
     num_states = len(np.unique(state))
