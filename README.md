@@ -1,5 +1,7 @@
 # Forecasting-Tornadoes
 
+This repository contains up to several small statistical models for forecasting tornadoes. If you are a collaborator and want to create a model, please use this poetry environment. Also, please name your model one letter after the previous model
+
 This repository covers up to several models for forecasting tornadoes. The authors of these models are not experts in climate modelling or tornado dynamics.
 
 Forecasting repositories, such as this one (usually created by @AFg6K7h4fhy2), are typically positioned as small experimental test units for tackling Metaculus questions with statistical modelling.

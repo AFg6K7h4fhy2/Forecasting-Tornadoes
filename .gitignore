@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# Mac DS Store
+.DS_Store
+
 # Distribution / packaging
 .Python
 build/
@@ -118,9 +121,6 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
-
-# DS Store
-*.DS_Store
 
 # Environments
 .env
