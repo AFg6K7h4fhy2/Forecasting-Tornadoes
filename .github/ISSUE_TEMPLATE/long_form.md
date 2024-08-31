@@ -1,9 +1,9 @@
 ---
-name: General Issue
-about: An issue template for AFg6K7h4fhy2's repositories.
-title: ''
-labels: ["general-issue"]
-assignees: ''
+name: Long Form Issue Template
+about: An extended issue, containing a goal and context, tasks and resources.
+title: ""
+labels: ["long form issue"]
+assignees: ""
 ---
 
 DELETE_ONCE_ISSUE_IS_CREATED: This template serves as rough scheme for the content of issues in the author's repositories. Strict adherence to this template is not necessary; rather, the template acts as a guideline.
@@ -24,7 +24,7 @@ DELETE_ONCE_ISSUE_IS_CREATED: Standards of development have not yet been made, b
 
 - [ ] E.g. modify file X to include a paragraph on A, B, and or C.
 
-## Extra-Scope
+## Not Covered
 
 - [changes that are beyond the scope of this issue]
 
