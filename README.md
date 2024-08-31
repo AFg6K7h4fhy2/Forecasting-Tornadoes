@@ -1,5 +1,13 @@
 # Forecasting-Tornadoes
 
+---
+
+![](./assets/repo_image/Dszpics1.jpg)
+
+Image from [Wikipedia](https://en.wikipedia.org/wiki/Tornado#/media/File:Dszpics1.jpg): _A tornado near Anadarko, Oklahoma, 1999. The funnel is the thin tube reaching from the cloud to the ground. The lower part of this tornado is surrounded by a translucent dust cloud, kicked up by the tornado's strong winds at the surface. The wind of the tornado has a much wider radius than the funnel itself._
+
+---
+
 This repository [^quick_note] contains statistical models for forecasting tornadoes.
 
 [^quick_note]: Lightweight repositories for forecasting and inference, such as this one (usually created by @AFg6K7h4fhy2), are typically made as experimental test units for tackling Metaculus questions with statistical modeling or for the sake of the collaborators' understanding of statistical methods.
