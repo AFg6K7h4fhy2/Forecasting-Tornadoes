@@ -4,15 +4,17 @@ repos:
     rev: v4.6.0
     hooks:
     -   id: check-added-large-files
+        args: ['--maxkb=10000']
     -   id: check-yaml
-        args: [--allow-multiple-documents]
+        args: ['--allow-multiple-documents']
+        stages: ['commit']
     -   id: check-toml
     -   id: end-of-file-fixer
     -   id: mixed-line-ending
     -   id: trailing-whitespace
 ################################################################################
--   repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 24.4.2
+-   repo: https://github.com/psf/black # was https://github.com/psf/black-pre-commit-mirror
+    rev: 24.3.0 # was 23.10.0
     hooks:
     -   id: black-jupyter
         args: ['--line-length', '79']
@@ -23,29 +25,104 @@ repos:
     -   id: isort
         args: ['--profile', 'black',
                '--line-length', '79']
-# -   repo: https://github.com/numpy/numpydoc
-#     rev: v1.7.0
-#     hooks:
-#     -   id: numpydoc-validation
 -   repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.7
+    rev: v0.3.6
     hooks:
       - id: ruff
         args: ['--ignore=E741', '--ignore=E731', '--fix']
 ################################################################################
+# # R
+# -   repo: https://github.com/lorenzwalthert/precommit
+#     rev: v0.4.1
+#     hooks:
+#     -   id: style-files
+#     -   id: lintr
+################################################################################
+# Julia
+# Due to lack of first-class Julia support, this needs Julia local install
+#   and JuliaFormatter.jl installed in the library
+# - repo: https://github.com/domluna/JuliaFormatter.jl
+#   rev: v1.0.39
+#   hooks:
+#   - id: julia-formatter
+################################################################################
+# Secrets
+# -   repo: https://github.com/Yelp/detect-secrets
+#     rev: v1.4.0
+#     hooks:
+#     -   id: detect-secrets
+#         args: ['--baseline', '.secrets.baseline']
+#         exclude: package.lock.json
+################################################################################
+# GitHub Actions
 -   repo: https://github.com/rhysd/actionlint
-    rev: v1.7.1
+    rev: v1.6.27
     hooks:
     -   id: actionlint
 ################################################################################
+# Make Files
+# -   repo: https://github.com/mrtazz/checkmake.git
+#     rev: 0.2.2
+#     hooks:
+#     -   id: checkmake
+################################################################################
+# Typos
 -   repo: https://github.com/crate-ci/typos
     rev: v1.21.0
     hooks:
     -   id: typos
-        args: ["--force-exclude"]
+        args: ['--force-exclude']
 ################################################################################
+# Commit Messages
 -   repo: https://github.com/commitizen-tools/commitizen
-    rev: v3.27.0
+    rev: v3.22.0
     hooks:
     -   id: commitizen
 ################################################################################
+# Can add the following if desired, can't remember the utility
+#
+# -   repo: https://github.com/adamchainz/blacken-docs
+#     rev: 1.16.0
+#     hooks:
+#     -   id: blacken-docs
+#         additional_dependencies:
+#         - black==24.3.0
+#
+# If use numpydocs again, add the following:
+#
+# -   repo: https://github.com/numpy/numpydoc
+#     rev: v1.7.0
+#     hooks:
+#     -   id: numpydoc-validation
+#
+# with the following in pyproject.toml
+#
+# [tool.numpydoc_validation]
+# checks = [
+#     "GL03", # Double line break found
+#     "GL06", # Found unknown section
+#     "GL07", # Sections are in the wrong order
+#     "GL08", # The object does not have a docstring
+#     "GL10", # reST directives must be followed by two colons
+#     "SS01", # No summary found
+#     "SS02", # Summary does not start with a capital letter
+#     "SS03", # Summary does not end with a period
+#     "PR01", # Parameters not documented
+#     "PR02", # Unknown parameters
+#     "PR03", # Wrong parameters order
+#     "PR04", # Parameter has no type
+#     "PR07", # Parameter  has no description
+#     "PR08", # Parameter description should start with a capital letter
+#     "PR09", # Parameter description should finish with period
+#     "PR10", # Parameter requires a space before the colon
+#     "RT01", # No Returns section found
+#     "RT03", # Return value has no description
+#     "RT04", # Return value description should start with a capital letter
+#     "RT05", # Return value description should finish with period
+# ]
+# exclude = [  # don't report on objects that match any of these regex
+#     '\.undocumented_method$',
+#     '\.__repr__$',
+#     '\.__call__$',
+#     '\.__init__$',
+# ]
