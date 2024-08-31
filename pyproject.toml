@@ -1,20 +1,21 @@
 [tool.poetry]
 name = "forecasting-tornadoes"
-version = "0.1.0"
-description = "The authors' attempts at forecasting and modelling tornados in the US."
-authors = ["AFg6K7h4fhy2 <127630341+AFg6K7h4fhy2@users.noreply.github.com>"]
+version = "0.0.1"
+description = "Attempts at forecasting and modeling tornadoes in the United States."
+authors = ["AFg6K7h4fhy2 <127630341+AFg6K7h4fhy2@users.noreply.github.com>", "Liam Axon <laxon26@gmail.com>"]
 readme = "README.md"
 license = "MIT"
+package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 pre-commit = "^3.7.0"
 polars = "^0.20.22"
 numpyro = "^0.14.0"
 toml = "^0.10.2"
 arviz = "^0.18.0"
 matplotlib = "^3.8.4"
-flax = "^0.8.5"
+pytest = "^8.3.2"
 
 
 [build-system]
