@@ -1,81 +1,21 @@
 # Forecasting-Tornadoes
 
-This repository contains up to several small statistical models for forecasting tornadoes. If you are a collaborator and want to create a model, please use this poetry environment. Also, please name your model one letter after the previous model
+This repository [^quick_note] contains statistical models for forecasting tornadoes.
 
-This repository covers up to several models for forecasting tornadoes. The authors of these models are not experts in climate modelling or tornado dynamics.
+[^quick_note]: Lightweight repositories for forecasting and inference, such as this one (usually created by @AFg6K7h4fhy2), are typically made as experimental test units for tackling Metaculus questions with statistical modeling or for the sake of the collaborators' understanding of statistical methods.
 
-Forecasting repositories, such as this one (usually created by @AFg6K7h4fhy2), are typically positioned as small experimental test units for tackling Metaculus questions with statistical modelling.
+If you want to collaborate and create a model, please clone this repository
 
-If you are a collaborator, make sure, upon cloning this repository
+`git clone git@github.com:AFg6K7h4fhy2/Forecasting-Tornadoes.git`
 
-* `git clone https://github.com/AFg6K7h4fhy2/Forecasting-Tornadoes.git`
+and then create a new branch with your model. If you have feedback for the authors of this repository, please [make an issue](https://github.com/AFg6K7h4fhy2/Forecasting-Tornadoes/issues).
 
-that you have `poetry` installed.
+This repository uses `poetry` for dependency management. To install poetry, you can run `pipx install poetry` [^poetry].
 
-* `pip3 install poetry`
+[^poetry]: More about `poetry` can be learned on their [website](https://python-poetry.org/).
 
-Once this is done, type `poetry shell`. To close the environment, type `exit`.
+And to activate the environment for this repository, run `poetry install`.
 
-## Repository Structure
+<!-- ## Repository Structure
 
-`tree | grep -Ev "\.png|\.pyc|\.txt|\.csv"`
-
-
-```
-.
-├── CONTRIBUTING.md
-├── LICENSE
-├── README.md
-├── _typos.toml
-├── assets
-│   └── figures
-├── data
-│   ├── clean
-│   └── raw
-├── model_E414_01
-│   ├── __init__.py
-│   ├── docs
-│   │   ├── Makefile
-│   │   ├── output
-│   │   │   └── out.pdf
-│   │   └── source
-│   │       ├── metadata.yml
-│   │       ├── model.md
-│   │       └── references.bib
-│   ├── output
-│   │   ├── April_2024
-│   │   └── May_2024
-│   ├── params.toml
-│   └── src
-│       ├── __init__.py
-│       ├── __pycache__
-│       ├── model.py
-│       └── run.py
-├── poetry.lock
-├── pyproject.toml
-└── utils
-    ├── __init__.py
-    ├── __pycache__
-    ├── config.py
-    ├── data.py
-    ├── inf.py
-    ├── save.py
-    ├── transform.py
-    └── vis.py
-
-17 directories, 92 files
-```
-
-
-<!-- ## Setting Up A Model
-
-
-
-## Model Notes: E414 01
-
-__Equations__
-
-
-
-
-__Diagram__ -->
+`tree | grep -Ev "\.png|\.pyc|\.txt|\.csv"` -->
